@@ -152,7 +152,7 @@ public class Main {
         System.out.println("обновляем таск");
         System.out.println("Результат " + tm.getSubTasks());
 
-        SubTask subtaks6 = new SubTask("subTask6", "Desc6", 14, TaskStatus.DONE, 100);
+        SubTask subtaks6 = new SubTask("subTask6", "Desc6", 16, TaskStatus.DONE, 9);
 
         tm.subTaskUpdate(subtaks6);
 
@@ -167,5 +167,35 @@ public class Main {
 
 
         System.out.println("Результат " + tm.getSubTasksByEpicId(10));
+
+
+        ///  проверка на статус
+        System.out.println();
+        System.out.println("ПРОВЕРКА НА СТАТУСЫ");
+
+
+        Integer epicStatus1 = tm.createEpic(new Epic("EpicStatus", "DescStatus"));
+        Integer subtaskStatus1 = tm.createSubTask(new SubTask("subTaskStatus1", "DescStatus", epicStatus1));
+        Integer subtaskStatus2 = tm.createSubTask(new SubTask("subTaskStatus2", "DescStatus", epicStatus1));
+        Integer subtaskStatus3 = tm.createSubTask(new SubTask("subTaskStatus3", "DescStatus", epicStatus1));
+        Integer subtaskStatus4 = tm.createSubTask(new SubTask("subTaskStatus4", "DescStatus", epicStatus1));
+
+        System.out.println(tm.getSubTasksByEpicId(epicStatus1));
+        System.out.println(tm.getEpicById(epicStatus1));
+
+        System.out.println();
+        System.out.println("получаем статус эпика Done");
+
+        SubTask subtaskStatus11 = new SubTask("subTask66", "Desc66", 18, TaskStatus.DONE, 17);
+        SubTask subtaskStatus22 = new SubTask("subTask77", "Desc6", 19, TaskStatus.DONE, 17);
+        SubTask subtaskStatus33 = new SubTask("subTask88", "Desc6", 20, TaskStatus.DONE, 17);
+        SubTask subtaskStatus44 = new SubTask("subTask99", "Desc6", 21, TaskStatus.DONE, 17);
+
+        tm.subTaskUpdate(subtaskStatus11);
+        tm.subTaskUpdate(subtaskStatus22);
+        tm.subTaskUpdate(subtaskStatus33);
+        tm.subTaskUpdate(subtaskStatus44);
+
+        System.out.println(tm.getEpicById(epicStatus1));
     }
 }

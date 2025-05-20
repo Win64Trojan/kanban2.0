@@ -3,6 +3,7 @@ package service;
 import model.Epic;
 import model.SubTask;
 import model.Task;
+import status.TaskStatus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -127,6 +128,7 @@ public class TaskManager {
     public void removeAllSubTasks() {
         for (Epic epic : epics.values()) {
             epic.getSubtakIds().clear();
+            checkEpicStatus(epic.getId());
         }
         subtasks.clear();
     }
@@ -140,17 +142,24 @@ public class TaskManager {
         newSubtask.setId(id);
         subtasks.put(id, newSubtask);
         Integer epicId = newSubtask.getEpicId();
+
+        if (!epics.containsKey(epicId)) {
+            return null;
+        }
+
         ArrayList<Integer> subtakIds = epics.get(epicId).getSubtakIds();
         subtakIds.add(id);
+        checkEpicStatus(epicId);
         return newSubtask.getId();
     }
 
     public Integer subTaskUpdate(SubTask newSubtask) {
-        SubTask t = subtasks.get(newSubtask.getId());
-        if (t == null) {
+        subtasks.put(newSubtask.getId(), newSubtask);
+        Integer epicId = subtasks.get(newSubtask.getId()).getEpicId();
+        if (!epics.containsKey(epicId)) {
             return null;
         }
-        subtasks.put(newSubtask.getId(), newSubtask);
+        checkEpicStatus(epicId);
         return newSubtask.getId();
     }
 
@@ -159,6 +168,7 @@ public class TaskManager {
         ArrayList<Integer> subtakIds = epics.get(epicId).getSubtakIds();
         subtakIds.remove(id);
         subtasks.remove(id);
+        checkEpicStatus(epicId);
     }
 
     /// Дополнительные методы:
@@ -179,6 +189,29 @@ public class TaskManager {
     }
 
     private void checkEpicStatus(Integer epicId) {
+        Epic epic = epics.get(epicId);
+
+        int countNew = 0;
+        int countDone = 0;
+
+        for (Integer subtaskId : epic.getSubtakIds()) {
+            SubTask subtask = subtasks.get(subtaskId);
+            if (subtask.getTaskStatus() == TaskStatus.NEW) {
+                countNew++;
+            }
+            if (subtask.getTaskStatus() == TaskStatus.DONE) {
+                countDone++;
+            }
+        }
+
+        if (epic.getSubtakIds().isEmpty() || countNew == epic.getSubtakIds().size()) {
+            epic.setTaskStatus(TaskStatus.NEW);
+        } else if (countDone == epic.getSubtakIds().size()) {
+            epic.setTaskStatus(TaskStatus.DONE);
+        } else {
+            epic.setTaskStatus(TaskStatus.IN_PROGRESS);
+        }
+
 
     }
 
