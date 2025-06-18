@@ -1,7 +1,6 @@
 import model.Epic;
 import model.SubTask;
 import model.Task;
-import org.w3c.dom.ls.LSOutput;
 import service.HistoryManager;
 import service.InMemoryHistoryManager;
 import service.InMemoryTaskManager;
@@ -111,9 +110,6 @@ public class Main {
         System.out.println("Результат " + manager.getEpics());
 
 
-
-
-
         ///  ПРОВЕРКА ПО САБТАСКАМ
 
         System.out.println();
@@ -124,7 +120,7 @@ public class Main {
         ///  проверяем удаление по айди
         System.out.println("проверяем удаление по айди");
 
-        Integer subtaks1 = manager.createSubTask(new SubTask("subTask1", "Desc1" , epic4));
+        Integer subtaks1 = manager.createSubTask(new SubTask("subTask1", "Desc1", epic4));
 
         System.out.println(manager.getSubTasks());
         manager.deleteSubTaskById(subtaks1);
@@ -172,7 +168,6 @@ public class Main {
         System.out.println("Получаем все сабтаски из одного эпика");
 
 
-
         System.out.println("Результат " + manager.getSubTasksByEpicId(10));
 
 
@@ -209,7 +204,6 @@ public class Main {
 
 
         /// Доп задание ТЗ 6
-
 
 
         System.out.println();
@@ -284,7 +278,6 @@ public class Main {
         }
 
 
-
     }
 
     private static void printAllTasks(TaskManager manager) {
@@ -310,8 +303,6 @@ public class Main {
             System.out.println(task);
         }
     }
-
-
 
 
 }
