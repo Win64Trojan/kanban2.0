@@ -89,13 +89,13 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void removeAllEpics() {
-            for (Integer subtakId : subtasks.keySet()) {
-                historyManagers.remove(subtakId);
-            }
+        for (Integer subtakId : subtasks.keySet()) {
+            historyManagers.remove(subtakId);
+        }
 
-            for (Integer epicId : epics.keySet()) {
-                historyManagers.remove(epicId);
-            }
+        for (Integer epicId : epics.keySet()) {
+            historyManagers.remove(epicId);
+        }
         subtasks.clear();
         epics.clear();
     }
@@ -259,9 +259,10 @@ public class InMemoryTaskManager implements TaskManager {
             epic.setTaskStatus(TaskStatus.IN_PROGRESS);
         }
     }
+
     ///  История последних просмотренных задач
     @Override
-    public ArrayList<Task> getHistory(){
+    public ArrayList<Task> getHistory() {
         return historyManagers.getHistory();
     }
 }
