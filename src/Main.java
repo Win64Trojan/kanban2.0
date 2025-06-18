@@ -1,14 +1,20 @@
 import model.Epic;
 import model.SubTask;
 import model.Task;
+import org.w3c.dom.ls.LSOutput;
+import service.HistoryManager;
+import service.InMemoryHistoryManager;
 import service.InMemoryTaskManager;
 import service.TaskManager;
 import status.TaskStatus;
+
+import java.util.ArrayList;
 
 public class Main {
 
     public static void main(String[] args) {
         TaskManager manager = new InMemoryTaskManager();
+        HistoryManager historyManager = new InMemoryHistoryManager();
 
 
         ///  ПРОВЕРКА ПО ТАСКАМ
@@ -200,6 +206,85 @@ public class Main {
         System.out.println(manager.getEpicById(epicStatus1));
 
         printAllTasks(manager);
+
+
+        /// Доп задание ТЗ 6
+
+
+
+        System.out.println();
+        System.out.println("Доп задание ТЗ 6");
+        System.out.println();
+
+        Integer taks666 = manager.createTask(new Task("Task666", "Desc666"));
+        Integer taks777 = manager.createTask(new Task("Task777", "Desc777"));
+
+        Integer epic6666 = manager.createEpic(new Epic("Epic6666", "Desc6666"));
+        Integer epic7777 = manager.createEpic(new Epic("Epic7777", "Desc7777"));
+
+        Integer subtaks44444 = manager.createSubTask(new SubTask("subTask44444", "Desc44444", epic6666));
+        Integer subtaks55555 = manager.createSubTask(new SubTask("subTask55555", "Desc55555", epic7777));
+
+        manager.getTaskById(taks777);
+        manager.getEpicById(epic7777);
+        manager.getTaskById(taks666);
+        manager.getEpicById(epic7777);
+        manager.getTaskById(taks666);
+        manager.getEpicById(epic6666);
+        manager.getTaskById(taks666);
+        manager.getSubTaskById(subtaks44444);
+        manager.getSubTaskById(subtaks55555);
+        manager.getSubTaskById(subtaks55555);
+        manager.getSubTaskById(subtaks44444);
+        manager.getTaskById(taks666);
+
+        ArrayList<Task> taskHistor = manager.getHistory();
+        for (Task task : taskHistor) {
+            if (task instanceof SubTask) {
+                System.out.println((SubTask) task);
+            } else if (task instanceof Epic) {
+                System.out.println((Epic) task);
+            } else {
+                System.out.println((Task) task);
+            }
+        }
+
+        System.out.println();
+        System.out.println("Удаляем только задачу 777");
+        System.out.println();
+
+        manager.deleteTaskById(taks777);
+
+        ArrayList<Task> taskHistor2 = manager.getHistory();
+        for (Task task : taskHistor2) {
+            if (task instanceof SubTask) {
+                System.out.println((SubTask) task);
+            } else if (task instanceof Epic) {
+                System.out.println((Epic) task);
+            } else {
+                System.out.println((Task) task);
+            }
+        }
+
+        System.out.println();
+        System.out.println("Удаляем все эпике, в истории должны удалиться сабстаски и эпики");
+        System.out.println();
+
+        manager.removeAllEpics();
+
+        ArrayList<Task> taskHistor3 = manager.getHistory();
+        for (Task task : taskHistor3) {
+            if (task instanceof SubTask) {
+                System.out.println((SubTask) task);
+            } else if (task instanceof Epic) {
+                System.out.println((Epic) task);
+            } else {
+                System.out.println((Task) task);
+            }
+        }
+
+
+
     }
 
     private static void printAllTasks(TaskManager manager) {
@@ -225,4 +310,8 @@ public class Main {
             System.out.println(task);
         }
     }
+
+
+
+
 }

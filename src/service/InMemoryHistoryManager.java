@@ -78,11 +78,14 @@ public class InMemoryHistoryManager implements HistoryManager {
     public ArrayList<Task> getHistory() {
         if (isEmpty()) {
             System.out.println("No history found");
+            return null;
         }
         return getTasks();
     }
 
     public void removeHistory() {
+        head = null;
+        tail = null;
         navigatorTasks.clear();
     }
 
