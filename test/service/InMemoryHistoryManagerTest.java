@@ -3,17 +3,18 @@ package service;
 import model.Epic;
 import model.SubTask;
 import model.Task;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class InMemoryHistoryManagerTest {
 
-    private static final Integer HISTORY_SIZE = 10;
 
     TaskManager taskManager;
     InMemoryHistoryManager historyManager = new InMemoryHistoryManager();
@@ -42,7 +43,7 @@ class InMemoryHistoryManagerTest {
 
         ArrayList<Task> tasks = taskManager.getHistory();
 
-        assertEquals(HISTORY_SIZE, tasks.size());
+        assertEquals(3, tasks.size());
         assertNotEquals(12, tasks.size());
 
     }
@@ -68,4 +69,36 @@ class InMemoryHistoryManagerTest {
 
         assertEquals(historyTest, taskManager.getHistory());
     }
+
+    @Test
+    void addAndRemoveHistoryTest() {
+
+        Epic epic = new Epic("EpicTest1", "DescTest1");
+        Task task = new Task("Task1", "Desc1");
+        SubTask subTask = new SubTask("Subtask1", "Desc1", 1);
+
+        taskManager.createEpic(epic);
+        taskManager.createSubTask(subTask);
+        taskManager.createTask(task);
+
+        historyManager.add(taskManager.getEpicById(1));
+        historyManager.add(taskManager.getTaskById(3));
+        historyManager.add(taskManager.getTaskById(3));
+        historyManager.add(taskManager.getSubTaskById(2));
+        historyManager.add(taskManager.getEpicById(1));
+        historyManager.add(taskManager.getSubTaskById(2));
+        historyManager.add(taskManager.getTaskById(3));
+
+
+        historyManager.remove(1);
+        ArrayList<Task> historyTest;
+        historyTest = historyManager.getHistory();
+        assertFalse(historyTest.contains(epic));
+
+        historyManager.removeHistory();
+        assertNull(historyManager.getHistory());
+
+    }
+
+
 }
