@@ -2,18 +2,18 @@ package service;
 
 class Node<T> {
 
-    private T Task;
+    private T task;
     private Node<T> next;
     private Node<T> prev;
 
     Node(Node<T> prev, T task, Node<T> next) {
-        this.Task = task;
+        this.task = task;
         this.next = next;
         this.prev = prev;
     }
 
     public T getTask() {
-        return Task;
+        return task;
     }
 
     public Node<T> getNext() {
