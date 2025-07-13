@@ -19,7 +19,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
 
     private final File outputFile;
 
-    private final static String title = "id,type,name,status,description,epic";
+    private static final String title = "id,type,name,status,description,epic";
 
     FileBackedTaskManager(File outputFile) {
         this.outputFile = outputFile;
