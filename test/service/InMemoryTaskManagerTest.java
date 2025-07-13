@@ -46,7 +46,7 @@ class InMemoryTaskManagerTest {
         taskManager.createTask(task2);
         taskManager.removeAllTasks();
 
-        assertNull(taskManager.getTasks());
+        assertEquals(true, taskManager.getTasks().isEmpty());
     }
 
     @Test
@@ -125,7 +125,7 @@ class InMemoryTaskManagerTest {
 
         taskManager.removeAllEpics();
 
-        assertNull(taskManager.getEpics());
+        assertEquals(true, taskManager.getEpics().isEmpty());
     }
 
     @Test
@@ -195,7 +195,7 @@ class InMemoryTaskManagerTest {
 
         assertNotNull(taskManager.getSubTasks());
         taskManager.removeAllSubTasks();
-        assertNull(taskManager.getSubTasks());
+        assertEquals(true, taskManager.getSubTasks().isEmpty());
     }
 
     @Test
