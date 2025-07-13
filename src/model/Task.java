@@ -73,9 +73,9 @@ public class Task {
     @Override
     public String toString() {
         return "Tasks.model.Task{" +
-                "taskName='" + taskName + '\'' +
+                "id=" + id +
+                ", taskName='" + taskName + '\'' +
                 ", taskDesc='" + taskDesc + '\'' +
-                ", id=" + id +
                 ", taskStatus=" + taskStatus +
                 '}';
     }
