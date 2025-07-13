@@ -12,11 +12,11 @@ public class InMemoryTaskManager implements TaskManager {
 
     private Integer ids = 0;
 
-    private final HashMap<Integer, Task> tasks = new HashMap<>();
+    protected final HashMap<Integer, Task> tasks = new HashMap<>();
 
-    private final HashMap<Integer, Epic> epics = new HashMap<>();
+    protected final HashMap<Integer, Epic> epics = new HashMap<>();
 
-    private final HashMap<Integer, SubTask> subtasks = new HashMap<>();
+    protected final HashMap<Integer, SubTask> subtasks = new HashMap<>();
 
     private final HistoryManager historyManagers = Managers.getDefaultHistory();
 
@@ -24,9 +24,6 @@ public class InMemoryTaskManager implements TaskManager {
     /// Для model.Task
     @Override
     public ArrayList<Task> getTasks() {
-        if (tasks.isEmpty()) {
-            return null;
-        }
         return new ArrayList<>(tasks.values());
     }
 
@@ -81,9 +78,6 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public ArrayList<Epic> getEpics() {
-        if (epics.isEmpty()) {
-            return null;
-        }
         return new ArrayList<>(epics.values());
     }
 
@@ -145,9 +139,6 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public ArrayList<SubTask> getSubTasks() {
-        if (subtasks.isEmpty()) {
-            return null;
-        }
         return new ArrayList<>(subtasks.values());
     }
 

@@ -4,7 +4,7 @@ import status.TaskStatus;
 
 public class SubTask extends Task {
 
-    private  Integer epicId;
+    private Integer epicId;
 
     public SubTask(String taskName, String taskDesc, Integer epicId) {
         super(taskName, taskDesc);
@@ -27,11 +27,11 @@ public class SubTask extends Task {
     @Override
     public String toString() {
         return "SubTask{ " +
-                " epicId= " + epicId +
-                " SubTaskName= '" + taskName + '\'' +
-                ", SubTaskDesc= '" + taskDesc + '\'' +
-                ", id SubTask= " + id +
-                ", SubTaskStatus= " + taskStatus +
+                "id SubTask= " + id +
+                ", epicId=" + epicId +
+                ", SubTaskName='" + taskName + '\'' +
+                ", SubTaskDesc='" + taskDesc + '\'' +
+                ", SubTaskStatus=" + taskStatus +
                 '}';
     }
 }
