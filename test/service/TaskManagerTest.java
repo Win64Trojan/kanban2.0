@@ -158,7 +158,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
 
             List<SubTask> subTasksBeforeUpdate = taskManager.getSubTasks();
 
-            subTask.setId(1);
+            subTask.setEpicId(1);
             taskManager.subTaskUpdate(subTask);
 
             List<SubTask> subTasksAfterUpdate = taskManager.getSubTasks();

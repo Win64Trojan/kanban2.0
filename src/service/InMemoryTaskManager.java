@@ -294,7 +294,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public boolean isIntersectedTasks(Task t1, Task t2) {
-        return ((t1.getStartTime().isBefore(t2.getEndTime()))) && (t2.getStartTime().isAfter(t1.getEndTime()));
+        return ((t1.getStartTime().isBefore(t2.getEndTime()))) && (t2.getStartTime().isBefore(t1.getEndTime()));
     }
 
     private void updatePrioritizedTasks() {
