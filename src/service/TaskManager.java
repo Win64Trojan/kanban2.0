@@ -5,9 +5,10 @@ import model.SubTask;
 import model.Task;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface TaskManager {
-    ArrayList<Task> getTasks();
+    List<Task> getTasks();
 
     void removeAllTasks();
 
@@ -19,7 +20,7 @@ public interface TaskManager {
 
     void deleteTaskById(Integer id);
 
-    ArrayList<Epic> getEpics();
+    List<Epic> getEpics();
 
     void removeAllEpics();
 
@@ -31,7 +32,7 @@ public interface TaskManager {
 
     void deleteEpicById(Integer id);
 
-    ArrayList<SubTask> getSubTasks();
+    List<SubTask> getSubTasks();
 
     void removeAllSubTasks();
 
@@ -43,7 +44,11 @@ public interface TaskManager {
 
     void deleteSubTaskById(Integer id);
 
-    ArrayList<SubTask> getSubTasksByEpicId(Integer epicId);
+    List<SubTask> getSubTasksByEpicId(Integer epicId);
 
     ArrayList<Task> getHistory();
+
+    List<Task> getPrioritizedTasks();
+
+    boolean isIntersectedTasks(Task t1, Task t2);
 }
