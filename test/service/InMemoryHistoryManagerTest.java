@@ -6,6 +6,9 @@ import model.Task;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,8 +31,8 @@ class InMemoryHistoryManagerTest {
     @Test
     void addTest() {
         Epic epic = new Epic("EpicTest1", "DescTest1");
-        Task task = new Task("Task1", "Desc1");
-        SubTask subTask = new SubTask("Subtask1", "Desc1", 1);
+        Task task = new Task("Task1", "Desc1", LocalDateTime.of(2024, Month.JUNE, 19, 10, 20), Duration.ofMinutes(1));
+        SubTask subTask = new SubTask("Subtask1", "Desc1", LocalDateTime.of(2024, Month.JUNE, 19, 10, 20), Duration.ofMinutes(1), 1);
 
         taskManager.createEpic(epic);
         taskManager.createSubTask(subTask);
@@ -51,8 +54,8 @@ class InMemoryHistoryManagerTest {
     @Test
     void getHistoryTest() {
         Epic epic = new Epic("EpicTest1", "DescTest1");
-        Task task = new Task("Task1", "Desc1");
-        SubTask subTask = new SubTask("Subtask1", "Desc1", 1);
+        Task task = new Task("Task1", "Desc1", LocalDateTime.of(2024, Month.JUNE, 19, 10, 20), Duration.ofMinutes(1));
+        SubTask subTask = new SubTask("Subtask1", "Desc1", LocalDateTime.of(2024, Month.JUNE, 19, 10, 20), Duration.ofMinutes(1), 1);
 
         taskManager.createEpic(epic);
         taskManager.createSubTask(subTask);
@@ -74,8 +77,8 @@ class InMemoryHistoryManagerTest {
     void addAndRemoveHistoryTest() {
 
         Epic epic = new Epic("EpicTest1", "DescTest1");
-        Task task = new Task("Task1", "Desc1");
-        SubTask subTask = new SubTask("Subtask1", "Desc1", 1);
+        Task task = new Task("Task1", "Desc1", LocalDateTime.of(2024, Month.JUNE, 19, 10, 20), Duration.ofMinutes(1));
+        SubTask subTask = new SubTask("Subtask1", "Desc1", LocalDateTime.of(2024, Month.JUNE, 19, 10, 20), Duration.ofMinutes(1), 1);
 
         taskManager.createEpic(epic);
         taskManager.createSubTask(subTask);

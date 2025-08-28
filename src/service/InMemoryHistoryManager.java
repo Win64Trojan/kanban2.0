@@ -81,6 +81,8 @@ public class InMemoryHistoryManager implements HistoryManager {
             return null;
         }
         return getTasks();
+
+
     }
 
     public void removeHistory() {

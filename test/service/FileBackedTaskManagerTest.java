@@ -3,54 +3,66 @@ package service;
 import model.Epic;
 import model.SubTask;
 import model.Task;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.Month;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class FileBackedTaskManagerTest {
+public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
+    private File file;
+
+    @BeforeEach
+    public void beforeEach() {
+        assertDoesNotThrow(() -> {
+            this.file = File.createTempFile("test", "csv");
+            this.taskManager = new FileBackedTaskManager(file);
+        });
+    }
 
     @Test
     void shouldStoreOnlyTitleIfNoTasksAdded() {
-        try {
-            File file = File.createTempFile("test", "csv");
-            FileBackedTaskManager taskManager = new FileBackedTaskManager(file);
-
+        assertDoesNotThrow(() -> {
             String[] lines = Files.readString(file.toPath()).split("\n");
             assertEquals(lines.length, 1);
-            assertEquals(lines[0], "id,type,name,status,description,epic");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+            assertEquals(lines[0], "id,type,name,status,description,epic,startTime,duration");
+        });
     }
 
     @Test
     void shouldStoreTasksToFile() {
         try {
+
             File file = File.createTempFile("test", "csv");
             FileBackedTaskManager taskManager = new FileBackedTaskManager(file);
 
-            Task task = new Task("Подстричь волосы", "Взять ножницы");
+            Task task = new Task("Подстричь волосы", "Взять ножницы",
+                    LocalDateTime.of(2024, Month.JUNE, 19, 10, 10), Duration.ofMinutes(1));
             taskManager.createTask(task);
 
             Epic epic = new Epic("Купить машину", "Найти консультанта");
             taskManager.createEpic(epic);
 
-            SubTask subTask = new SubTask("Поиск консультанта", "Заплатить консультанту", epic.getId());
+            SubTask subTask = new SubTask("Поиск консультанта", "Заплатить консультанту",
+                    LocalDateTime.of(2024, Month.JUNE, 19, 10, 20), Duration.ofMinutes(2),
+                    epic.getId());
             taskManager.createSubTask(subTask);
 
             String[] lines = Files.readString(file.toPath()).split("\n");
 
             assertEquals(lines.length, 4);
 
-            assertEquals(lines[0], "id,type,name,status,description,epic");
-            assertEquals(lines[1], "1,TASK,Подстричь волосы,NEW,Взять ножницы,");
-            assertEquals(lines[2], "2,EPIC,Купить машину,NEW,Найти консультанта,");
-            assertEquals(lines[3], "3,SUBTASK,Поиск консультанта,NEW,Заплатить консультанту,2");
+            assertEquals(lines[0], "id,type,name,status,description,epic,startTime,duration");
+            assertEquals(lines[1], "1,TASK,Подстричь волосы,NEW,Взять ножницы,,19.06.24 10:10,1");
+            assertEquals(lines[2], "2,EPIC,Купить машину,NEW,Найти консультанта,,19.06.24 10:20,2");
+            assertEquals(lines[3], "3,SUBTASK,Поиск консультанта,NEW,Заплатить консультанту,2,19.06.24 10:20,2");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -61,7 +73,6 @@ class FileBackedTaskManagerTest {
         try {
             File file = File.createTempFile("test", "csv");
             FileBackedTaskManager taskManager = FileBackedTaskManager.loadFromFile(file);
-
             assertEquals(taskManager.getSubTasks().size(), 0);
             assertEquals(taskManager.getTasks().size(), 0);
             assertEquals(taskManager.getEpics().size(), 0);
@@ -69,46 +80,4 @@ class FileBackedTaskManagerTest {
             throw new RuntimeException(e);
         }
     }
-
-    @Test
-    void shouldLoadTasksFromFile() {
-        try {
-            File file = File.createTempFile("test", "csv");
-
-            try (FileWriter writer = new FileWriter(file)) {
-
-                writer.write("""
-                        id,type,name,status,description,epic
-                        1,TASK,Подстричь волосы,NEW,Взять ножницы,
-                        2,EPIC,Купить машину,NEW,Найти консультанта,
-                        3,SUBTASK,Поиск консультанта,NEW,Заплатить консультанту,2""");
-            }
-
-
-            FileBackedTaskManager taskManager = FileBackedTaskManager.loadFromFile(file);
-
-
-            assertEquals(1, taskManager.getTasks().size());
-            assertEquals(1, taskManager.getEpics().size());
-            assertEquals(1, taskManager.getSubTasks().size());
-
-            Task expectedTask = new Task("Подстричь волосы", "Взять ножницы");
-            expectedTask.setId(1);
-
-            Epic expectedEpic = new Epic("Купить машину", "Найти консультанта");
-            expectedEpic.setId(2);
-
-            SubTask expectedSubTask = new SubTask("Поиск консультанта", "Заплатить консультанту",
-                    expectedEpic.getId());
-            expectedSubTask.setId(3);
-
-            assertEquals(expectedTask, taskManager.getTasks().getFirst());
-            assertEquals(expectedEpic, taskManager.getEpics().getFirst());
-            assertEquals(expectedSubTask, taskManager.getSubTasks().getFirst());
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
 }

@@ -2,9 +2,12 @@ package model;
 
 import status.TaskStatus;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
-public class Task {
+public class Task implements Comparable<Task> {
 
     protected String taskName;
 
@@ -14,16 +17,15 @@ public class Task {
 
     protected TaskStatus taskStatus = TaskStatus.NEW;
 
-    public Task(String taskName, String taskDesc) {
-        this.taskName = taskName;
-        this.taskDesc = taskDesc;
-    }
+    protected LocalDateTime startTime;
 
-    public Task(String taskName, String taskDesc, Integer id, TaskStatus taskStatus) {
+    protected Duration duration;
+
+    public Task(String taskName, String taskDesc, LocalDateTime startTime, Duration duration) {
         this.taskName = taskName;
         this.taskDesc = taskDesc;
-        this.id = id;
-        this.taskStatus = taskStatus;
+        this.startTime = startTime;
+        this.duration = duration;
     }
 
     public String getTaskName() {
@@ -58,6 +60,26 @@ public class Task {
         this.taskStatus = taskStatus;
     }
 
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public LocalDateTime getEndTime() {
+        return startTime.plus(duration);
+    }
+
+    @Override
+    public int compareTo(Task o) {
+        if (startTime == null || startTime.isAfter(o.getStartTime())) {
+            return 1;
+        }
+        return -1;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
@@ -72,11 +94,20 @@ public class Task {
 
     @Override
     public String toString() {
+
+        String startTimeString = "";
+        if (startTime != null) {
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yy HH:mm");
+            startTimeString = startTime.format(dateTimeFormatter);
+        }
+
         return "Tasks.model.Task{" +
                 "id=" + id +
                 ", taskName='" + taskName + '\'' +
                 ", taskDesc='" + taskDesc + '\'' +
                 ", taskStatus=" + taskStatus +
+                ", start_time=" + startTimeString +
+                ", duration=" + duration.toMinutes() + "мин." +
                 '}';
     }
 }
