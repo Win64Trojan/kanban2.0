@@ -32,7 +32,7 @@ public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskMan
         assertDoesNotThrow(() -> {
             String[] lines = Files.readString(file.toPath()).split("\n");
             assertEquals(lines.length, 1);
-            assertEquals(lines[0], "id,type,name,status,description,epic,start_time,duration");
+            assertEquals(lines[0], "id,type,name,status,description,epic,startTime,duration");
         });
     }
 
@@ -59,7 +59,7 @@ public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskMan
 
             assertEquals(lines.length, 4);
 
-            assertEquals(lines[0], "id,type,name,status,description,epic,start_time,duration");
+            assertEquals(lines[0], "id,type,name,status,description,epic,startTime,duration");
             assertEquals(lines[1], "1,TASK,Подстричь волосы,NEW,Взять ножницы,,19.06.24 10:10,1");
             assertEquals(lines[2], "2,EPIC,Купить машину,NEW,Найти консультанта,,19.06.24 10:20,2");
             assertEquals(lines[3], "3,SUBTASK,Поиск консультанта,NEW,Заплатить консультанту,2,19.06.24 10:20,2");
