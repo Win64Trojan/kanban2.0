@@ -167,7 +167,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (subtasks.isEmpty()) {
             return;
         } else {
-            subtasks.keySet().forEach(epic -> historyManagers.remove(epic));
+            subtasks.keySet().forEach(historyManagers::remove);
         }
         subtasks.clear();
         updatePrioritizedTasks();
@@ -248,12 +248,12 @@ public class InMemoryTaskManager implements TaskManager {
         }
 
         List<Integer> subtakIds = epic.getSubtakIds();
-        List<SubTask> subtask = subtakIds.stream()
+
+
+        return subtakIds
+                .stream()
                 .map(subtasks::get)
                 .toList();
-
-
-        return subtask;
     }
 
     private void checkEpicStatus(Integer epicId) {
@@ -321,7 +321,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    private boolean isIntersectsExistingTask(Task input) {
+    public boolean isIntersectsExistingTask(Task input) {
         List<Task> tasks = prioritizedTasks.stream()
                 .filter((task -> isIntersectedTasks(task, input)))
                 .toList();
