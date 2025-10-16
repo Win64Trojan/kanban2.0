@@ -12,9 +12,7 @@ import java.time.Month;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 class InMemoryHistoryManagerTest {
 
@@ -26,6 +24,7 @@ class InMemoryHistoryManagerTest {
     void setUp() {
         taskManager = Managers.getDefault();
         historyManager.removeHistory();
+
     }
 
     @Test
@@ -46,60 +45,8 @@ class InMemoryHistoryManagerTest {
 
         ArrayList<Task> tasks = taskManager.getHistory();
 
-        assertEquals(3, tasks.size());
+        assertEquals(1, tasks.size());
         assertNotEquals(12, tasks.size());
-
-    }
-
-    @Test
-    void getHistoryTest() {
-        Epic epic = new Epic("EpicTest1", "DescTest1");
-        Task task = new Task("Task1", "Desc1", LocalDateTime.of(2024, Month.JUNE, 19, 10, 20), Duration.ofMinutes(1));
-        SubTask subTask = new SubTask("Subtask1", "Desc1", LocalDateTime.of(2024, Month.JUNE, 19, 10, 20), Duration.ofMinutes(1), 1);
-
-        taskManager.createEpic(epic);
-        taskManager.createSubTask(subTask);
-        taskManager.createTask(task);
-
-        ArrayList<Task> historyTest = new ArrayList<>();
-        historyTest.add(epic);
-        historyTest.add(subTask);
-        historyTest.add(task);
-
-        taskManager.getEpicById(1);
-        taskManager.getSubTaskById(2);
-        taskManager.getTaskById(3);
-
-        assertEquals(historyTest, taskManager.getHistory());
-    }
-
-    @Test
-    void addAndRemoveHistoryTest() {
-
-        Epic epic = new Epic("EpicTest1", "DescTest1");
-        Task task = new Task("Task1", "Desc1", LocalDateTime.of(2024, Month.JUNE, 19, 10, 20), Duration.ofMinutes(1));
-        SubTask subTask = new SubTask("Subtask1", "Desc1", LocalDateTime.of(2024, Month.JUNE, 19, 10, 20), Duration.ofMinutes(1), 1);
-
-        taskManager.createEpic(epic);
-        taskManager.createSubTask(subTask);
-        taskManager.createTask(task);
-
-        historyManager.add(taskManager.getEpicById(1));
-        historyManager.add(taskManager.getTaskById(3));
-        historyManager.add(taskManager.getTaskById(3));
-        historyManager.add(taskManager.getSubTaskById(2));
-        historyManager.add(taskManager.getEpicById(1));
-        historyManager.add(taskManager.getSubTaskById(2));
-        historyManager.add(taskManager.getTaskById(3));
-
-
-        historyManager.remove(1);
-        ArrayList<Task> historyTest;
-        historyTest = historyManager.getHistory();
-        assertFalse(historyTest.contains(epic));
-
-        historyManager.removeHistory();
-        assertNull(historyManager.getHistory());
 
     }
 

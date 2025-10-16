@@ -51,4 +51,6 @@ public interface TaskManager {
     List<Task> getPrioritizedTasks();
 
     boolean isIntersectedTasks(Task t1, Task t2);
+
+    boolean isIntersectsExistingTask(Task task);
 }
