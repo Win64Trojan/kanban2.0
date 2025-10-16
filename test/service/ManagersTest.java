@@ -2,11 +2,13 @@ package service;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ManagersTest {
 
-    TaskManager taskManager = new InMemoryTaskManager();
+    TaskManager taskManager = new FileBackedTaskManager(new File("saveTasks.csv"));
     HistoryManager historyManager = new InMemoryHistoryManager();
 
     @Test

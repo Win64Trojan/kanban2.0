@@ -44,6 +44,14 @@ public class HttpTaskServer {
 
     }
 
+    public void stop() {
+        httpServer.stop(0);
+    }
+
+    public Gson getGson(){
+        return gson;
+    }
+
     private void initRoutes() {
         httpServer.createContext("/tasks", new TasksHandler(taskManager, gson));
         httpServer.createContext("/subtasks", new SubtasksHandler(taskManager, gson));

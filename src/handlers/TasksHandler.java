@@ -74,8 +74,6 @@ public class TasksHandler extends BaseHttpHandler {
 
                 if (managers.getTaskById(task.getId()) == null) {
                     throw new Exception("Задачи с таким айди не существует, проверте правильность введенного айдти");
-                } else if (managers.isIntersectsExistingTask(task)) {
-                    sendHasInteractions(t);
                 }
 
                 managers.taskUpdate(task);
