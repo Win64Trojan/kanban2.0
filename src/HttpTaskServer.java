@@ -48,7 +48,7 @@ public class HttpTaskServer {
         httpServer.stop(0);
     }
 
-    public Gson getGson(){
+    public Gson getGson() {
         return gson;
     }
 
